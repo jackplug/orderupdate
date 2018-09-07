@@ -6,6 +6,8 @@ const API_BASE = "https://api.thecatapi.com/";
 const API_EXAMPLE = API_BASE + "v1/images/search/?";
 const API_SIZE = '&size=small';
 
+const HISTORY_STORAGE_KEY = 'HISTORY_KEY';
+
 /**
  * generate example tag from a Javascript Object that containt the example information
  */
@@ -19,6 +21,8 @@ function buildExampleMarkup(example) {
  */
 function updateHistory(example) {
     exampleHistory.push(example);
+    //Save the array in the local storage
+    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(exampleHistory));
     //update display
     addExampleToHistoryTag(example);
 }
@@ -49,6 +53,13 @@ async function onOkButtonClickAsync() {
     } catch (err) {
         console.error(`error ${err}`);
     }
+}
+
+/**
+ * The history is serrialized as a JSON array. We use JSON.parse to convert is to a Javascript array
+ */
+function getLocalHistory() {
+    return JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY));
 }
 
 /**
