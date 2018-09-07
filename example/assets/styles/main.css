@@ -1,0 +1,17 @@
+#history {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.example_item {
+    margin: 10px;
+    width: 250px;
+}
+
+.example_item img {
+    width: auto;
+    height: auto;
+    max-height: 10vh;
+    overflow: hidden;
+}
