@@ -62,16 +62,22 @@ function getLocalHistory() {
     return JSON.parse(localStorage.getItem(HISTORY_STORAGE_KEY));
 }
 
-/**
- * Install the service worker
- */
-async function installServiceWorkerAsync() {
+async function onLoadAsync() {
+    //load the history from cache
+    let history = getLocalHistory();
+    if (history !== null) {
+        //set the animeHistory array and update the display
+        exampleHistory = history;
+        exampleHistory.forEach(example => addExampleToHistoryTag(example));
+    }
+
+    // Install the service worker
     if ('serviceWorker' in navigator) {
         try {
-            let serviceWorker = await navigator.serviceWorker.register('/sw.js')
-            console.log(`Service worker registered ${serviceWorker}`)
+            let serviceWorker = await navigator.serviceWorker.register('/sw.js');
+            console.log(`Service worker registered ${serviceWorker}`);
         } catch (err) {
-            console.error(`Failed to register service worker: ${err}`)
+            console.error(`Failed to register service worker: ${err}`);
         }
     }
 }
