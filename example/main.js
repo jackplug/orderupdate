@@ -13,7 +13,7 @@ const HISTORY_STORAGE_KEY = 'HISTORY_KEY';
  */
 function buildExampleMarkup(example) {
     return `<div class="example_item"><img class='example_image' src=${example[0].url} />
-        <h2 class='example_name'>${example[0].id}</h2></div>`;
+        <h2 class='example_name'>${example[0].term} (id:${example[0].id})</h2></div>`;
 }
 
 /**
@@ -35,6 +35,14 @@ function addExampleToHistoryTag(example) {
 }
 
 /**
+ * Add the search term
+ */
+function addTerm(item, term) {
+    item.term = term;
+}
+
+
+/**
  * loadAnExample from the internet and place it on a target element
  */
 async function onOkButtonClickAsync() {
@@ -46,6 +54,7 @@ async function onOkButtonClickAsync() {
             return;
         }
         let example = await response.json();
+        example.forEach(item => addTerm(item, exampleId));
         console.log("example", example);
         document.querySelector(targetElementId).innerHTML = buildExampleMarkup(example);
 
